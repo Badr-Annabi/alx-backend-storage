@@ -18,7 +18,7 @@ BEGIN
         WHERE c.user_id = user_id;
 
 	UPDATE users
-	SET average_score = IF(total_weight = 0, 0, total_weighted_scoore / total_weight)
+	SET average_score = IF(total_weight = 0, 0, total_weight_score / total_weight)
 	WHERE id = user_id;
 END$$
 
