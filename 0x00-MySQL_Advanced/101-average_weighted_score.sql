@@ -17,7 +17,7 @@ BEGIN
 		FETCH cur INTO user_id;
 		IF done THEN
 			LEAVE read_loop;
-		END IF
+		END IF;
 
 	SELECT SUM(c.score * p.weight) INTO total_weight_score
 	FROM corrections c
