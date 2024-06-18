@@ -9,20 +9,23 @@ def log_stats():
     client = MongoClient('mongodb://127.0.0.1:27017')
     logs_collection = client.logs.nginx
     total = logs_collection.count_documents({})
-    get = logs_collection.count_documents({"method": "GET"})
-    post = logs_collection.count_documents({"method": "POST"})
-    put = logs_collection.count_documents({"method": "PUT"})
-    patch = logs_collection.count_documents({"method": "PATCH"})
-    delete = logs_collection.count_documents({"method": "DELETE"})
+    
+    methods_count = {
+            "GET": 0,
+            "POST": 0,
+            "PUT": 0,
+            "PATCH": 0,
+            "DELETE": 0
+            }
+    for method in methods_count:
+        methods_count[method] = logs_collection.count_document({"method": method})
+
     path = logs_collection.count_documents(
             {"method": "GET", "path": "/status"})
     print(f"{total} logs")
     print("Methods:")
-    print(f"\tmethod GET: {get}")
-    print(f"\tmethod POST: {post}")
-    print(f"\tmethod PUT: {put}")
-    print(f"\tmethod PATCH: {patch}")
-    print(f"\tmethod DELETE: {delete}")
+    for method, count in methods_count:
+        print(f"\tmethod {method}: {count}")
     print(f"{path} status check")
 
 
