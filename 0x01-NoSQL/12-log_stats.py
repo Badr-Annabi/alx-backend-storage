@@ -18,7 +18,7 @@ def log_stats():
             "DELETE": 0
             }
     for method in methods_count:
-        methods_count[method] = logs_collection.count_document({"method": method})
+        methods_count[method] = logs_collection.count_documents({"method": method})
 
     path = logs_collection.count_documents(
             {"method": "GET", "path": "/status"})
