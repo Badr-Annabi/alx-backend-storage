@@ -24,7 +24,7 @@ def log_stats():
             {"method": "GET", "path": "/status"})
     print(f"{total} logs")
     print("Methods:")
-    for method, count in methods_count:
+    for method, count in methods_count.items():
         print(f"\tmethod {method}: {count}")
     print(f"{path} status check")
 
