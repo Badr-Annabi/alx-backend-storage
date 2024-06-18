@@ -6,9 +6,8 @@ This Python function changes all topics of a school document based on the name
 
 def update_topics(mongo_collection, name, topics):
     """Updates Documents"""
-    new_document = mongo_collection.update(
+    mongo_collection.update_one(
             {"name": name},
             {
-                "set": {"topics": topics}
-            },
-            {multi: true})
+                "$set": {"topics": topics}
+            })
