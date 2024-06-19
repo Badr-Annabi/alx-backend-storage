@@ -4,6 +4,7 @@ import redis
 import uuid
 from typing import Union, Callable
 
+
 class Cache():
     def __init__(self):
         """
@@ -20,7 +21,8 @@ class Cache():
         self._redis.set(key, data)
         return key
 
-    def get(self, key: str, fn: Optional[Callable] = None) -> Union[str, bytes, int, float]:
+    def get(self, key: str,
+            fn: Optional[Callable] = None) -> Union[str, bytes, int, float]:
         """Get sata from cache"""
         value = self._redis.get(key)
         if fn:
