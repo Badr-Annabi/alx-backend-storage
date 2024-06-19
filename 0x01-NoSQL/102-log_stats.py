@@ -36,8 +36,8 @@ def log_stats():
     for ip in ips:
         if i == 10:
             break
-        print(f"\t{ip.get('_id')}: {s.get('count')}")
-        i++
+        print(f"\t{ip.get('_id')}: {ip.get('count')}")
+        i += 1
 
 
 if __name__ == "__main__":
