@@ -2,13 +2,13 @@
 """Creating a Cache Class"""
 import redis
 import uuid
-from typing import Union, Callable, Optional, Any
-import functools
+from typing import Union, Callable, Optional
+from functools import wraps
 
 
 def count_calls(method: Callable) -> Callable:
     """Decorator to count the number of calls to a method"""
-    @functools.wraps(method)
+    @wraps(method)
     def wrapper(self, *args, **kwargs):
         """wrapper function"""
         key = method.__qualname__
@@ -34,7 +34,7 @@ class Cache():
         return key
 
     def get(self, key: str,
-            fn: Optional[Callable] = None) -> Any:
+            fn: Optional[Callable] = None) -> Union[str, bytes, int, float]:
         """Get sata from cache"""
         value = self._redis.get(key)
         if fn is not None:
