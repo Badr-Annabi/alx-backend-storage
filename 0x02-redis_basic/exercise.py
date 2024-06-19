@@ -22,10 +22,10 @@ class Cache():
         return key
 
     def get(self, key: str,
-            fn: Optional[Callable] = None) -> Union[str, bytes, int, float]:
+            fn: Optional[Callable] = None) -> Any:
         """Get sata from cache"""
         value = self._redis.get(key)
-        if fn:
+        if fn is not None:
             value = fn(value)
         return value
 
