@@ -33,6 +33,7 @@ def log_stats():
         print(f"\tmethod {method}: {count}")
     print(f"{path} status check")
     print("IPs:")
+    i = 0
     for ip in ips:
         if i == 10:
             break
