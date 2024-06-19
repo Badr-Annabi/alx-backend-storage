@@ -2,7 +2,7 @@
 """Creating a Cache Class"""
 import redis
 import uuid
-from typing import Union, Callable
+from typing import Union, Callable, Optional, Any
 
 
 class Cache():
