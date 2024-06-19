@@ -2,7 +2,7 @@
 """Creating a Cache Class"""
 import redis
 import uuid
-
+from typing import Union
 
 class Cache():
     def __init__(self):
@@ -14,7 +14,7 @@ class Cache():
         self._redis = redis.Redis(host='localhost', port=6379, db=0)
         self._redis.flushdb()
 
-    def store(self, data):
+    def store(self, data: Union[str, bytes, int, float]) -> str:
         """The method takes data argument and returns a string."""
         key = str(uuid.uuid4())
         self._redis.set(key, data)
