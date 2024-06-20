@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Creating a Cache Class"""
+from functools import wraps
 import redis
 import uuid
 from typing import Union, Callable, Optional
-from functools import wraps
 
 
 def count_calls(method: Callable) -> Callable:
@@ -36,13 +36,7 @@ def call_history(method: Callable) -> Callable:
 
 def replay(method: Callable) -> None:
     # sourcery skip: use-fstring-for-concatenation, use-fstring-for-formatting
-    """
-    Replays the history of a function
-    Args:
-        method: The function to be decorated
-    Returns:
-        None
-    """
+    """This func replays the history of a function"""
     name = method.__qualname__
     cache = redis.Redis()
     calls = cache.get(name).decode("utf-8")
