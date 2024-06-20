@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""" This is a Redis Module """
+""" Redis Module """
 
 from functools import wraps
 import redis
@@ -9,23 +9,24 @@ from typing import Callable
 redis_ = redis.Redis()
 
 
-def count_request(method: Callable) -> Callable:
-    """Decorator for counting"""
+def count_requests(method: Callable) -> Callable:
+    """ Decortator for counting """
     @wraps(method)
-    def wrapper(url):
-        """wrapper for decorator"""
-        redis_.ince(f"count:{url}")
+    def wrapper(url):  # sourcery skip: use-named-expression
+        """ Wrapper for decorator """
+        redis_.incr(f"count:{url}")
         cached_html = redis_.get(f"cached:{url}")
         if cached_html:
             return cached_html.decode('utf-8')
         html = method(url)
         redis_.setex(f"cached:{url}", 10, html)
         return html
+
     return wrapper
 
 
 @count_requests
 def get_page(url: str) -> str:
-    """ Obtain the html content from a url  """
+    """ Obtain the HTML content of a  URL """
     req = requests.get(url)
     return req.text
