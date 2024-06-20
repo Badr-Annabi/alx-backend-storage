@@ -10,7 +10,7 @@ redis_ = redis.Redis()
 
 
 def count_requests(method: Callable) -> Callable:
-    """ Decortator for counting and caching """
+    """ Decortator function for counting and caching """
     @wraps(method)
     def wrapper(url):  # sourcery skip: use-named-expression
         """ Wrapper for decorator """
