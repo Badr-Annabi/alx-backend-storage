@@ -43,9 +43,9 @@ def replay(method: Callable) -> None:
     print("{} was called {} times:".format(name, calls))
     inputs = cache.lrange(name + ":inputs", 0, -1)
     outputs = cache.lrange(name + ":outputs", 0, -1)
-    for i, o in zip(inputs, outputs):
-        print("{}(*{}) -> {}".format(name, i.decode('utf-8'),
-                                     o.decode('utf-8')))
+    for input_, output_ in zip(inputs, outputs):
+        print("{}(*{}) -> {}".format(name, input_.decode('utf-8'),
+                                     output_.decode('utf-8')))
 
 
 class Cache():
