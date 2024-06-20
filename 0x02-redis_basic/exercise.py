@@ -9,11 +9,11 @@ from functools import wraps
 
 
 def count_calls(method: Callable) -> Callable:
-    """doc doc class"""
+    """ Decorator to count the number of calls to a method  """
 
     @wraps(method)
     def wrapper(self, *args, **kwargs):
-        """doc doc class"""
+        """wrapper function"""
         key = method.__qualname__
         self._redis.incr(key)
         return method(self, *args, **kwargs)
@@ -22,17 +22,18 @@ def count_calls(method: Callable) -> Callable:
 
 
 def call_history(method: Callable) -> Callable:
-    """doc doc class"""
-    inkey = method.__qualname__ + ":inputs"
-    outkey = method.__qualname__ + ":outputs"
+    """Decorator to store the history of inputs and
+    outputs"""
+    input_key = method.__qualname__ + ":inputs"
+    output_key = method.__qualname__ + ":outputs"
 
     @wraps(method)
     def wrapper(self, *args, **kwargs):
         """doc doc class"""
-        self._redis.rpush(inkey, str(args))
-        res = method(self, *args, **kwargs)
-        self._redis.rpush(outkey, str(res))
-        return res
+        self._redis.rpush(input_key, str(args))
+        data = method(self, *args, **kwargs)
+        self._redis.rpush(output_key, str(data))
+        return data
 
     return wrapper
 
@@ -40,11 +41,7 @@ def call_history(method: Callable) -> Callable:
 def replay(method: Callable) -> None:
     # sourcery skip: use-fstring-for-concatenation, use-fstring-for-formatting
     """
-    Replays the history of a function
-    Args:
-        method: The function to be decorated
-    Returns:
-        None
+    This func replays the history of a function
     """
     name = method.__qualname__
     cache = redis.Redis()
@@ -52,9 +49,9 @@ def replay(method: Callable) -> None:
     print("{} was called {} times:".format(name, calls))
     inputs = cache.lrange(name + ":inputs", 0, -1)
     outputs = cache.lrange(name + ":outputs", 0, -1)
-    for i, o in zip(inputs, outputs):
-        print("{}(*{}) -> {}".format(name, i.decode('utf-8'),
-                                     o.decode('utf-8')))
+    for input_, output_ in zip(inputs, outputs):
+        print("{}(*{}) -> {}".format(name, input_.decode('utf-8'),
+                                     output_.decode('utf-8')))
 
 
 class Cache:
