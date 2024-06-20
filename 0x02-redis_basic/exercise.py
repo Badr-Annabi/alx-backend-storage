@@ -72,19 +72,19 @@ class Cache:
 
     def get(self, key: str,
             fn: Optional[Callable] = None) -> Union[str, bytes, int, float]:
-        """ get a key and convert it to a desired format"""
+        """ this func gets a key and convert it to a desired format"""
         value = self._redis.get(key)
         if fn is not None:
             value = fn(value)
         return value
 
     def get_str(self, key: str) -> str:
-        """ gets a value and convert it to a string"""
+        """ this func gets a value and convert it to a string"""
         value = self._redis.get(key)
         return value.decode('utf-8')
 
     def get_int(self, key: str) -> int:
-        """ gets a value and convert it to a string"""
+        """ this func gets a value and convert it to a string"""
         value = self._redis.get(key)
         try:
             value = int(value.decode('utf-8'))
